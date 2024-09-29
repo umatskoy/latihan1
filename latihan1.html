@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pemesanan Jasa</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
+        form { max-width: 600px; margin: 0 auto; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #45a049; }
+        #total { font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <form id="orderForm">
+        <h2>Form Pemesanan Jasa</h2>
+        
+        <label for="tanggal">Tanggal:</label>
+        <input type="text" id="tanggal" name="tanggal" required>
+        
+        <label for="jam">Jam Pengerjaan:</label>
+        <input type="time" id="jam" name="jam" required>
+        
+        <label for="paket">Pilih Paket:</label>
+        <select id="paket" name="paket" required>
+            <option value="">Pilih paket</option>
+            <option value="paket1">Paket 1 - Rp 100.000</option>
+            <option value="paket2">Paket 2 - Rp 200.000</option>
+            <option value="paket3">Paket 3 - Rp 300.000</option>
+        </select>
+        
+        <label for="kuantitas">Kuantitas:</label>
+        <input type="number" id="kuantitas" name="kuantitas" min="1" value="1" required>
+        
+        <div id="total">Total: Rp 0</div>
+        
+        <button type="submit">Pesan Sekarang</button>
+    </form>
+
+    <script>
+        $(function() {
+            $("#tanggal").datepicker({ dateFormat: 'dd-mm-yy' });
+            
+            const harga = {
+                paket1: 100000,
+                paket2: 200000,
+                paket3: 300000
+            };
+            
+            function hitungTotal() {
+                const paket = $("#paket").val();
+                const kuantitas = $("#kuantitas").val();
+                if (paket && kuantitas) {
+                    const total = harga[paket] * kuantitas;
+                    $("#total").text(`Total: Rp ${total.toLocaleString('id-ID')}`);
+                } else {
+                    $("#total").text("Total: Rp 0");
+                }
+            }
+            
+            $("#paket, #kuantitas").on('change', hitungTotal);
+            
+            $("#orderForm").on('submit', function(e) {
+                e.preventDefault();
+                // Di sini Anda akan menambahkan kode untuk mengirim data ke Google Sheets
+                alert("Terima kasih atas pesanan Anda. Kami akan segera menghubungi Anda.");
+            });
+        });
+    </script>
+</body>
+</html>

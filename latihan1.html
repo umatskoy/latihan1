@@ -68,8 +68,26 @@
             
             $("#orderForm").on('submit', function(e) {
                 e.preventDefault();
-                // Di sini Anda akan menambahkan kode untuk mengirim data ke Google Sheets
-                alert("Terima kasih atas pesanan Anda. Kami akan segera menghubungi Anda.");
+                const formData = {
+                    tanggal: $("#tanggal").val(),
+                    jam: $("#jam").val(),
+                    paket: $("#paket").val(),
+                    kuantitas: $("#kuantitas").val(),
+                    total: $("#total").text().split(": ")[1].replace("Rp ", "").replace(".", "")
+                };
+
+                $.ajax({
+                    url: 'https://script.google.com/macros/s/AKfycbxsMDhaxR30EZn-_3fx45tFmFk6z2K3ZF_htMdcNqIRSmkFFv6M1tH_8PaxQNyyadDnnA/exec', // Ganti dengan URL Apps Script Anda
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function(response) {
+                        alert("Terima kasih atas pesanan Anda. Email konfirmasi akan segera dikirim.");
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Terjadi kesalahan. Silakan coba lagi nanti.");
+                    }
+                });
             });
         });
     </script>
